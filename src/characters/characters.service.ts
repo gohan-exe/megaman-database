@@ -42,18 +42,32 @@ export class CharactersService {
     try {
       if (!publicUrl) return;
 
-      const urlParts = publicUrl.split('/characters/');
-      if (urlParts.length > 1) {
-        const fileName = `characters/${decodeURIComponent(urlParts[1])}`;
+      // Trata URLs que contêm query params (ex: ?alt=media&token=...)
+      const cleanUrl = publicUrl.split('?')[0];
+
+      // Decodifica a URL (%2F vira /) e extrai tudo após o diretório 'characters/'
+      const decodedUrl = decodeURIComponent(cleanUrl);
+      const match = decodedUrl.match(/characters\/(.+)$/);
+
+      if (match && match[1]) {
+        const filePath = `characters/${match[1]}`;
         const bucket = this.firebaseService.getStorage().bucket();
-        await bucket.file(fileName).delete();
+        const file = bucket.file(filePath);
+
+        const [exists] = await file.exists();
+        if (exists) {
+          await file.delete();
+          console.log(`Imagem removida com sucesso do Storage: ${filePath}`);
+        } else {
+          console.warn(`Imagem não encontrada no Storage: ${filePath}`);
+        }
       }
     } catch (error) {
       console.error(`Erro ao deletar imagem do Storage: ${(error as Error).message}`);
     }
   }
 
-// 1. Criar Categoria e Personagem na Subcoleção
+  // 1. Criar Categoria e Personagem na Subcoleção
   async create(
     characterDto: CharacterDto,
     imageFile?: Express.Multer.File,
@@ -126,8 +140,13 @@ export class CharactersService {
       newImageUrl = await this.uploadImage(imageFile);
     }
 
+    // Remove propriedades 'undefined' para manter intactos os campos não enviados
+    const cleanUpdatedFields = Object.fromEntries(
+      Object.entries(updatedFields).filter(([_, value]) => value !== undefined),
+    );
+
     await doc.ref.update({
-      ...updatedFields,
+      ...cleanUpdatedFields,
       imageUrl: newImageUrl,
       updatedAt: new Date().toISOString(),
     });
@@ -137,7 +156,9 @@ export class CharactersService {
   }
 
   // 3. Edição em CASCATA exclusiva para renomear Jogos/Categorias
-  async renameCategory(renameCategoryDto: RenameCategoryDto): Promise<{ message: string; totalUpdated: number }> {
+  async renameCategory(
+    renameCategoryDto: RenameCategoryDto,
+  ): Promise<{ message: string; totalUpdated: number }> {
     const db = this.firebaseService.getFirestore();
     const { oldName, newName } = renameCategoryDto;
 
