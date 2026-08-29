@@ -46,19 +46,37 @@ API RESTful desenvolvida em **NestJS** para gerenciamento do catálogo de person
    ```bash
    git clone [https://github.com/seu-usuario/megaman-database.git](https://github.com/seu-usuario/megaman-database.git)
    cd megaman-database
+   ```
+
+
 2. **Instale as dependências:**
     ```bash
     npm install
-3. **Configure as Variáveis de Ambiente:**
-Crie um arquivo .env na raiz do projeto com as credenciais da sua conta de serviço do Firebase:
-    ```bash
-    FIREBASE_PROJECT_ID=seu-project-id
+    ```
+3. **Configure a Autenticação do Firebase:**
 
-    FIREBASE_CLIENT_EMAIL=seu-client-email@seu-project-id.iam.gserviceaccount.com
+   Para que a API se conecte ao Firestore e Cloud Storage, é necessário obter a **Chave de Serviço do Firebase**:
+   
+   1. Acesse o **[Console do Firebase](https://console.firebase.google.com/)** > Configurações do Projeto > **Contas de Serviço**.
+   2. Clique em **Gerar nova chave privada**. Um arquivo `.json` será baixado.
 
-    FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nSuaChavePrivadaAqui\n-----END PRIVATE KEY-----\n"
+   ---
 
-    FIREBASE_STORAGE_BUCKET=seu-project-id.appspot.com
+   #### Opção A: Usando Variáveis de Ambiente (`.env`) [Recomendado]
+   Abra o arquivo `.json` baixado, copie os campos correspondentes e crie um arquivo `.env` na raiz do projeto:
+
+   ```env
+   FIREBASE_PROJECT_ID=seu-project-id
+   FIREBASE_CLIENT_EMAIL=seu-client-email@seu-project-id.iam.gserviceaccount.com
+   FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nSuaChavePrivadaAqui\n-----END PRIVATE KEY-----\n"
+   FIREBASE_STORAGE_BUCKET=seu-project-id.appspot.com
+   ```
+
+    #### Opção B: Usando o arquivo `.json` diretamente
+
+    Caso o projeto esteja configurado para ler o arquivo diretamente, renomeie o arquivo baixado para `firebase-service-account.json` e coloque-o na raiz do projeto.
+
+    > ⚠️ **Atenção:** O arquivo `.json` e o `.env` contêm chaves privadas e **nunca** devem ser enviados para o Git. Certifique-se de que estão incluídos no seu arquivo `.gitignore`.
 
 ## 🏃 Execution da Aplicação
     
