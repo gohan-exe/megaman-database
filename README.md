@@ -1,114 +1,98 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🤖 Rockman & Forte Database (Mega Man Database API)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API RESTful desenvolvida em **NestJS** para gerenciamento do catálogo de personagens e jogos da franquia **Mega Man / Rockman & Forte**. A aplicação integra o **Firebase Firestore** para armazenamento dos dados estruturados em subcoleções por categorias (jogos) e o **Firebase Cloud Storage** para o gerenciamento de upload de imagens.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 🚀 Tecnologias Utilizadas
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Node.js** & **TypeScript**
+- **NestJS** - Framework backend progressivo
+- **Firebase Admin SDK**:
+  - **Firestore**: Banco de dados NoSQL estruturado em Coleções e Subcoleções
+  - **Cloud Storage**: Armazenamento e hospedagem de imagens
+- **Multer**: Processamento de uploads de imagens
+- **Swagger / OpenAPI**: Documentação interativa da API
 
-## Project setup
+---
 
-```bash
-$ npm install
-```
+## 📌 Funcionalidades
 
-## Compile and run the project
+### 👤 Personagens (`/characters`)
+- **Criar Personagem (`POST /characters`)**: Cadastra um novo personagem com upload opcional de imagem. Cria automaticamente a categoria/jogo correspondente no Firestore se ela não existir.
+- **Listar Todos (`GET /characters`)**: Retorna a lista completa de todos os personagens cadastrados nas subcoleções.
+- **Buscar por ID (`GET /characters/:id`)**: Retorna os detalhes de um personagem específico.
+- **Listar por Categoria (`GET /characters/category/:categoryName`)**: Retorna os personagens pertencentes a uma jogo/categoria.
+- **Atualizar Personagem (`PATCH /characters/:id`)**: Atualiza dados parciais do personagem, permitindo substituição de imagem ou remoção (`removeImage: true`).
+- **Deletar Personagem (`DELETE /characters/:id`)**: Remove o personagem da subcoleção e apaga sua imagem correspondente no Cloud Storage. Apaga a categoria pai se ela ficar sem personagens.
 
-```bash
-# development
-$ npm run start
+### 📁 Categorias / Jogos (`/characters/category`)
+- **Renomear Categoria (`PATCH /characters/category/rename`)**: Atualização em cascata. Migra todos os personagens da subcoleção antiga para uma nova categoria e atualiza o campo `firstApperance`.
+- **Deletar Categoria (`DELETE /characters/category/:categoryName`)**: Deleção em cascata. Remove todos os personagens da subcoleção, suas respectivas imagens no Cloud Storage e o documento pai da categoria.
 
-# watch mode
-$ npm run start:dev
+---
 
-# production mode
-$ npm run start:prod
-```
+## 📋 Pré-requisitos
 
-## Run tests
+- **Node.js** (v18 ou superior)
+- **npm** ou **yarn**
+- Conta no **Firebase** com projeto configurado (Firestore + Cloud Storage)
 
-```bash
-# unit tests
-$ npm run test
+---
 
-# e2e tests
-$ npm run test:e2e
+## ⚙️ Configuração do Ambiente
 
-# test coverage
-$ npm run test:cov
-```
+1. **Clone o repositório:**
+   ```bash
+   git clone [https://github.com/seu-usuario/megaman-database.git](https://github.com/seu-usuario/megaman-database.git)
+   cd megaman-database
+2. **Instale as dependências:**
+    ```bash
+    npm install
+3. **Configure as Variáveis de Ambiente:**
+Crie um arquivo .env na raiz do projeto com as credenciais da sua conta de serviço do Firebase:
+    ```bash
+    FIREBASE_PROJECT_ID=seu-project-id
 
-## Deployment
+    FIREBASE_CLIENT_EMAIL=seu-client-email@seu-project-id.iam.gserviceaccount.com
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+    FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nSuaChavePrivadaAqui\n-----END PRIVATE KEY-----\n"
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+    FIREBASE_STORAGE_BUCKET=seu-project-id.appspot.com
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+## 🏃 Execution da Aplicação
+    
+    
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+    # Modo de desenvolvimento com auto-reload
+    $ npm run start:dev
 
-## Observability
+    # Modo de produção
+    $ npm run build
+    $ npm run start:prod
 
-In production applications, observability is essential for understanding how your system behaves, detecting issues early, and maintaining reliable performance.
+A API estará disponível por padrão em http://localhost:3000.
 
-[NestJS Observe](https://observe.nestjs.com) automatically instruments your NestJS application, giving you deep visibility into your system with minimal setup:
+## 📖 Documentação da API (Swagger)
+Com a aplicação rodando, acesse a documentação interativa para testar as rotas diretamente no navegador:
 
-- **Distributed tracing:** Follow requests across services and understand how they flow through your system.
-- **Waterfall analysis:** Visualize request execution and identify slow operations, bottlenecks, and unexpected delays.
-- **Performance analysis:** Analyze application performance in real time and quickly pinpoint areas that need optimization.
-- **Metrics:** Track key application and infrastructure metrics to understand system health and performance trends.
-- **Logging:** Centralize and correlate logs with traces and other telemetry to make debugging easier.
-- **Error tracking:** Detect errors quickly and investigate their root causes with the surrounding context.
-- **SLA monitoring:** Track service-level objectives and identify when your application is approaching or exceeding defined thresholds.
-- **Alarms and alerts:** Set up alerts for critical errors, performance degradation, SLA violations, and other anomalies so your team can react quickly.
+👉 http://localhost:3000/api
 
-## Resources
+## 🛠️ Estrutura do Projeto
+    src/
+    ├── characters/
+    │   ├── dto/
+    │   │   ├── character.dto.ts
+    │   │   ├── update-character.dto.ts
+    │   │   └── rename-category.dto.ts
+    │   ├── characters.controller.ts
+    │   ├── characters.service.ts
+    │   └── characters.module.ts
+    ├── firebase/
+    │   ├── firebase.service.ts
+    │   └── firebase.module.ts
+    ├── app.module.ts
+    └── main.ts
 
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Auto-instrument your application with [NestJS Observer](https://observer.nestjs.com). Distributed tracing, metrics, and logging made easy. Error tracking and performance monitoring for your NestJS applications.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## 📄 Licença
+Este projeto está sob a licença MIT.
