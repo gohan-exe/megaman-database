@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsBoolean } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class CharacterDto {
   @ApiPropertyOptional({ example: 'abc123id' })
@@ -51,4 +52,13 @@ export class CharacterDto {
   @IsOptional()
   @IsString()
   imageUrl?: string | null;
+
+  @ApiPropertyOptional({ 
+    example: false, 
+    description: 'Defina como true para remover a imagem atual do Storage' 
+  })
+  @IsOptional()
+  @Transform(({ value }) => value === 'true' || value === true)
+  @IsBoolean()
+  removeImage?: boolean;
 }
