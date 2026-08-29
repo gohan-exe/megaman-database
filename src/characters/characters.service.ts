@@ -7,7 +7,7 @@ import type {} from 'multer';
 
 @Injectable()
 export class CharactersService {
-  private categoriesCollection = 'categories';
+  private categoriesCollection = 'games'; // Nome da coleção principal para categorias/jogos
 
   constructor(private readonly firebaseService: FirebaseService) {}
 
