@@ -93,6 +93,3 @@ Com a aplicação rodando, acesse a documentação interativa para testar as rot
     │   └── firebase.module.ts
     ├── app.module.ts
     └── main.ts
-
-## 📄 Licença
-Este projeto está sob a licença MIT.
