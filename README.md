@@ -92,15 +92,16 @@ API RESTful desenvolvida em **NestJS** para gerenciamento do catálogo de person
       credential: cert(serviceAccount),
       storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
     });
+    ```
 
-> ⚠️ **Atenção de Segurança:** Tanto o arquivo `.env` quanto qualquer chave `.json` contêm credenciais privadas e **nunca** devem ser enviados para o Git. Certifique-se de que estão incluídos no seu arquivo `.gitignore`:
->
-> ```gitignore
-> .env
-> *.json
-> !package.json
-> !tsconfig.json
-> ```
+    > ⚠️ **Atenção de Segurança:** Tanto o arquivo `.env` quanto qualquer chave `.json` contêm credenciais privadas e **nunca** devem ser enviados para o Git. Certifique-se de que estão incluídos no seu arquivo `.gitignore`:
+    >
+    > ```gitignore
+    > .env
+    > *.json
+    > !package.json
+    > !tsconfig.json
+    > ```
 
 ## 🏃 Execution da Aplicação
 
@@ -110,15 +111,6 @@ API RESTful desenvolvida em **NestJS** para gerenciamento do catálogo de person
     # Modo de produção
     $ npm run build
     $ npm run start:prod
-
-> ⚠️ **Atenção de Segurança:** Tanto o arquivo `.env` quanto qualquer chave `.json` contêm credenciais privadas e **nunca** devem ser enviados para o Git. Certifique-se de que estão incluídos no seu arquivo         `.gitignore`:
->
-> ```gitignore
-> .env
-> *.json
-> !package.json
-> !tsconfig.json
-> ```
 
 ## 🏃 Execution da Aplicação
 
