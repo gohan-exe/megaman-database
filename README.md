@@ -94,6 +94,16 @@ API RESTful desenvolvida em **NestJS** para gerenciamento do catálogo de person
     });
     ```
 
+    > ⚠️ **Atenção de Segurança:** Tanto o arquivo `.env` quanto qualquer chave `.json` contêm credenciais privadas e **nunca** devem ser enviados para o Git. Certifique-se de que estão incluídos no seu arquivo         `.gitignore`:
+    >
+    > ```gitignore
+    > .env
+    > *.json
+    > !package.json
+    > !tsconfig.json
+    > ```
+
+
 ## 🏃 Execution da Aplicação
 
     # Modo de desenvolvimento com auto-reload
@@ -102,15 +112,6 @@ API RESTful desenvolvida em **NestJS** para gerenciamento do catálogo de person
     # Modo de produção
     $ npm run build
     $ npm run start:prod
-
-> ⚠️ **Atenção de Segurança:** Tanto o arquivo `.env` quanto qualquer chave `.json` contêm credenciais privadas e **nunca** devem ser enviados para o Git. Certifique-se de que estão incluídos no seu arquivo `.gitignore`:
->
-> ```gitignore
-> .env
-> *.json
-> !package.json
-> !tsconfig.json
-> ```
 
 A API estará disponível por padrão em http://localhost:3000.
 
