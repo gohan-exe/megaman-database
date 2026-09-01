@@ -56,4 +56,4 @@ pids
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # Database key files
-*megamandatabase-f7d8d-firebase-adminsdk-fbsvc-3639d96bb6.json
+*firebase-adminsdk.json

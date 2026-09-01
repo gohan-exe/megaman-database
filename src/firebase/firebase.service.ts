@@ -2,8 +2,6 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { cert, getApps, initializeApp } from 'firebase-admin/app';
 import { Firestore, getFirestore } from 'firebase-admin/firestore';
 import { Storage, getStorage } from 'firebase-admin/storage';
-import * as fs from 'fs';
-import * as path from 'path';
 
 @Injectable()
 export class FirebaseService implements OnModuleInit {
@@ -11,20 +9,17 @@ export class FirebaseService implements OnModuleInit {
   private storage: Storage;
 
   onModuleInit() {
-    // Busca o arquivo JSON na raiz do projeto (junto ao package.json)
-    const serviceAccountPath = path.resolve(
-      process.cwd(),
-      'megamandatabase-f7d8d-firebase-adminsdk-fbsvc-3639d96bb6.json',
-    );
-
-    const serviceAccount = JSON.parse(
-      fs.readFileSync(serviceAccountPath, 'utf8'),
-    );
-
     if (!getApps().length) {
+      // Converte as quebras de linha enviadas na string da chave privada
+      const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+
       initializeApp({
-        credential: cert(serviceAccount),
-        storageBucket: process.env.STORAGE_BUCKET,
+        credential: cert({
+          projectId: process.env.FIREBASE_PROJECT_ID,
+          clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+          privateKey: privateKey,
+        }),
+        storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
       });
     }
 

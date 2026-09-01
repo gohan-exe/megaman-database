@@ -74,13 +74,27 @@ API RESTful desenvolvida em **NestJS** para gerenciamento do catálogo de person
 
     #### Opção B: Usando o arquivo `.json` diretamente
 
-    Caso o projeto esteja configurado para ler o arquivo diretamente, renomeie o arquivo baixado para `firebase-service-account.json` e coloque-o na raiz do projeto.
+    Caso prefira autenticar carregando o arquivo de credenciais diretamente na raiz do projeto:
 
-    > ⚠️ **Atenção:** O arquivo `.json` e o `.env` contêm chaves privadas e **nunca** devem ser enviados para o Git. Certifique-se de que estão incluídos no seu arquivo `.gitignore`.
+    1. Baixe o arquivo de chave privada no Console do Firebase e renomeie-o para `firebase-adminsdk.json`.
+    2. Coloque o arquivo na raiz do projeto (no mesmo diretório do `package.json`).
+    3. No arquivo `src/firebase/firebase.service.ts`, altere a inicialização do Firebase Admin SDK para ler o arquivo físico via `fs.readFileSync`:
+
+    ```typescript
+    import * as fs from 'fs';
+    import * as path from 'path';
+
+    // ...
+    const serviceAccountPath = path.resolve(process.cwd(), 'firebase-adminsdk.json');
+    const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, 'utf8'));
+
+    initializeApp({
+    credential: cert(serviceAccount),
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+    });
+    ```
 
 ## 🏃 Execution da Aplicação
-    
-    
 
     # Modo de desenvolvimento com auto-reload
     $ npm run start:dev
@@ -88,6 +102,15 @@ API RESTful desenvolvida em **NestJS** para gerenciamento do catálogo de person
     # Modo de produção
     $ npm run build
     $ npm run start:prod
+
+> ⚠️ **Atenção de Segurança:** Tanto o arquivo `.env` quanto qualquer chave `.json` contêm credenciais privadas e **nunca** devem ser enviados para o Git. Certifique-se de que estão incluídos no seu arquivo `.gitignore`:
+>
+> ```gitignore
+> .env
+> *.json
+> !package.json
+> !tsconfig.json
+> ```
 
 A API estará disponível por padrão em http://localhost:3000.
 
