@@ -112,15 +112,6 @@ API RESTful desenvolvida em **NestJS** para gerenciamento do catálogo de person
     $ npm run build
     $ npm run start:prod
 
-## 🏃 Execution da Aplicação
-
-    # Modo de desenvolvimento com auto-reload
-    $ npm run start:dev
-
-    # Modo de produção
-    $ npm run build
-    $ npm run start:prod
-
 A API estará disponível por padrão em http://localhost:3000.
 
 ## 📖 Documentação da API (Swagger)
