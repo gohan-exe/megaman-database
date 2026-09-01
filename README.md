@@ -79,6 +79,7 @@ API RESTful desenvolvida em **NestJS** para gerenciamento do catálogo de person
     1. Baixe o arquivo de chave privada no Console do Firebase e renomeie-o para `firebase-adminsdk.json`.
     2. Coloque o arquivo na raiz do projeto (no mesmo diretório do `package.json`).
     3. No arquivo `src/firebase/firebase.service.ts`, altere a inicialização do Firebase Admin SDK para ler o arquivo físico via `fs.readFileSync`:
+   
 
     ```typescript
     import * as fs from 'fs';
