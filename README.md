@@ -89,9 +89,10 @@ API RESTful desenvolvida em **NestJS** para gerenciamento do catálogo de person
     const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, 'utf8'));
 
     initializeApp({
-    credential: cert(serviceAccount),
-    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+      credential: cert(serviceAccount),
+      storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
     });
+<<<<<<< HEAD
 
 > ⚠️ **Atenção de Segurança:** Tanto o arquivo `.env` quanto qualquer chave `.json` contêm credenciais privadas e **nunca** devem ser enviados para o Git. Certifique-se de que estão incluídos no seu arquivo `.gitignore`:
 >
@@ -111,6 +112,29 @@ API RESTful desenvolvida em **NestJS** para gerenciamento do catálogo de person
     $ npm run build
     $ npm run start:prod
 
+=======
+    ```
+
+    > ⚠️ **Atenção de Segurança:** Tanto o arquivo `.env` quanto qualquer chave `.json` contêm credenciais privadas e **nunca** devem ser enviados para o Git. Certifique-se de que estão incluídos no seu arquivo         `.gitignore`:
+    >
+    > ```gitignore
+    > .env
+    > *.json
+    > !package.json
+    > !tsconfig.json
+    > ```
+
+
+## 🏃 Execution da Aplicação
+
+    # Modo de desenvolvimento com auto-reload
+    $ npm run start:dev
+
+    # Modo de produção
+    $ npm run build
+    $ npm run start:prod
+
+>>>>>>> a163c158f3a35fbc4c47507d1025acb44f4740bd
 A API estará disponível por padrão em http://localhost:3000.
 
 ## 📖 Documentação da API (Swagger)
