@@ -134,3 +134,5 @@ Com a aplicação rodando, acesse a documentação interativa para testar as rot
     │   └── firebase.module.ts
     ├── app.module.ts
     └── main.ts
+    
+#### © Mega Man™ / © CAPCOM CO., LTD. Todos os direitos reservados.
